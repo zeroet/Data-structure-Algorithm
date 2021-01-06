@@ -1,88 +1,67 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define CAPACITY 100
-#define BUF_LENGTH 100
 
-typedef struct person
-{
-	char *name;
-	char *number;
-	char *email;
-	char *group;
-}	Person;
+#define INIT_CAPACITY 3
+#define BUFFER_SIZE 50
 
-Person directory[CAPACITY];
+char **names;
+char **numbers;
+
+int capacity = INIT_CAPACITY;
 int n = 0;
+char delim[] = " ";
 
-int read_line (FILE *fp, char str[], int n)
+
+void	init_directory()
+{
+	if (!(names = (char**)malloc(INIT_CAPACITY * sizeof(char *))))
+		return ;
+	if (!(numbers = (char**)malloc(INIT_CAPACITY * sizeof(char *))))
+		return ;
+}
+
+int read_line(char str[], int size)
 {
 	int ch, i = 0;
 
-	while ((ch = fgetc(fp)) != '\n' && ch != EOF)
-		if (i < n)
+	while ((ch = getchar()) != '\n')
+		if (i < size-1)
 			str[i++] = ch;
 	str[i] = '\0';
-	return i;
+	return (i);
 }
 
-int main()
+void	processe_command()
 {
-	char command_line[BUF_LENGTH];
-	char *cammand, *argument;
-	char name_str[BUF_LENGTH];
+	char command_line[BUFFER_SIZE];
+	char *command, *argument1, *argument2;
 
 	while (1)
 	{
 		printf("$ ");
-		if (read_line(stdin, command_line, BUF_LENGTH) <= 0)
-			continue;
-		command = strtok(command_line, " ");
-
+		if (read_line(commande_line, BUFFER_SIZE) <= 0)
+			continue ;
+		commande = strtok(command_line, delim);
+		if (command == NULL)
+			continue ;
 		if (strcmp(command, "read") == 0)
 		{
-			argument = strtok(NULL, " ");
-			if (argument == NULL)
+			argument1 = strtok(NULL, delim);
+			if (argument1 == NULL)
 			{
-				printf("Invalid arguments.\n");
-				continue;
+				pritnf("File name required.\n");
+				continue ;
 			}
-			load(argument);
+			load(argument1);
 		}
-		else if (strcmp(command, "status") == 0)
-			status();
-		else if (strcmp(command, "delet") == 0)
-			if (compose_name(name_str, BUF_LENGTH) <= 0)
-			{
-				printf("Invalid arguments.\n")
-					continue;
-			}
-			remove(name_str);
-		}
-}
-
-static void add(char *name, char *number, char *email, char *group)
-{
-	int i = n - 1;
-	while (i >= 0 && strcmp(directory[i].name, namm) > 0)
-	{
-		directory[i + 1] = directory[i];
-		i--;
 	}
-	directory[i + 1].name = strdup(name);
-	directory[i + 1].email = strdup(email);
-	/* ... */
-	n++;
 }
 
-/* or */
-
-void print_person(Person *p)
+int main()
 {
-	printf("%s", (*p).name); /* p->number */
-	printf("%s", (*p).number); /* p->email */
-	/* ... */
-	printf("%s", p->groupe);
+	init_directory();
+	processe_commande();
+
+	return (0);
 }
-
-

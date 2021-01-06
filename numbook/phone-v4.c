@@ -4,6 +4,7 @@
 
 #define INIT_CAPCITY 100
 #define BUF_SIZE 100
+
 typedef struct t_list
 {
 	char *name;
